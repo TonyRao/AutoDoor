@@ -16,6 +16,7 @@ namespace AutoDoor
 {
     public partial class Form1 : Form
     {
+        int tg = 0;
         public Form1()
         {
             InitializeComponent();
@@ -153,20 +154,7 @@ namespace AutoDoor
 
         }
 
-        private void label1_Click_1(object sender, EventArgs e)
-        {
 
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -185,27 +173,14 @@ namespace AutoDoor
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //toggle start / stop
-            if (button1.Text == "Start")
-            {
-                //disable button and runs port finder
-                button1.Enabled = false;
-                button1.Text = "Stop";
-                AutoDoorSetPort();
-                //enables button once port finder is done
-                button1.Enabled = true;
-            }
-            else
-            {
-                button1.Text = "Start";   
-            }
+            Toggle();
         }
         public void AutoDoorSetPort()
         {
+            PushLog("\nStarting AutoDoor");
             //clean sting
             string comOutput = getCOMInformationViaPowershell();
             string parsedStr = comOutput.Replace("----","").Replace("name", "");
-            MessageBox.Show(parsedStr);
 
             if (parsedStr != "")
             {
@@ -216,14 +191,7 @@ namespace AutoDoor
 
                 foreach (var com in coms)
                 {
-                    //Loops each line
-                    if (com.Contains("STMicroelectronics Virual COM Port")) {
-                        port1ID = com.Split('(')[1].Split(')')[0];
-                    }
-                    if (com.Contains("USB-SERIAL CH340"))
-                    {
-                        port2ID = com.Split('(')[1].Split(')')[0];
-                    }
+                    
                 }
                 if(port2ID != null && port1ID != null)
                 {
@@ -235,14 +203,48 @@ namespace AutoDoor
                 }
                 else
                 {
+                    PushLog("Missing COM ports");
                     //error Message if not found or 1 is missing
                     MessageBox.Show("Cannot Auto find COM Ports \nSet Manually");
+                    Toggle();
                 }
             }else
             {
+                PushLog("No Active COM ports");
                 //if no COM Ports
                 MessageBox.Show("There are no Active COM Ports");
+                Toggle();
             }
+        }
+        public void PushLog(string IncomingText)
+        {
+            richTextBox1.Text += ('\n' + IncomingText +"    "+ "[" + DateTime.Now + "]");
+        }
+
+        public void Toggle()
+        {
+            //toggle start / stop
+            if (tg == 0)
+            {
+                tg = 1;
+                //disable button and runs port finder
+                button1.Enabled = false;
+                button1.Text = "Stop";
+                AutoDoorSetPort();
+                //enables button once port finder is done
+                button1.Enabled = true;
+            }
+            else
+            {
+                tg = 0;
+                PushLog("Stopping AutoDoor");
+                button1.Text = "Start";
+            }
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
