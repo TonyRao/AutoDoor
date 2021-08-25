@@ -188,19 +188,61 @@ namespace AutoDoor
             //toggle start / stop
             if (button1.Text == "Start")
             {
+                //disable button and runs port finder
+                button1.Enabled = false;
                 button1.Text = "Stop";
-                AutoDoorStart();
+                AutoDoorSetPort();
+                //enables button once port finder is done
+                button1.Enabled = true;
             }
             else
             {
-                button1.Text = "Start";
-                
+                button1.Text = "Start";   
             }
         }
-        public void AutoDoorStart()
+        public void AutoDoorSetPort()
         {
+            //clean sting
             string comOutput = getCOMInformationViaPowershell();
-            MessageBox.Show(comOutput);
+            string parsedStr = comOutput.Replace("----","").Replace("name", "");
+            MessageBox.Show(parsedStr);
+
+            if (parsedStr != "")
+            {
+                //set variables
+                string[] coms = parsedStr.Split('\n');
+                string port1ID = null;
+                string port2ID = null;
+
+                foreach (var com in coms)
+                {
+                    //Loops each line
+                    if (com.Contains("STMicroelectronics Virual COM Port")) {
+                        port1ID = com.Split('(')[1].Split(')')[0];
+                    }
+                    if (com.Contains("USB-SERIAL CH340"))
+                    {
+                        port2ID = com.Split('(')[1].Split(')')[0];
+                    }
+                }
+                if(port2ID != null && port1ID != null)
+                {
+                    //do something
+
+
+                    //private SerialPort port1 = new SerialPort(port1ID, 9600, Parity.None, 8, StopBits.One);
+                    //private SerialPort port2 = new SerialPort(port2ID, 9600, Parity.None, 8, StopBits.One);
+                }
+                else
+                {
+                    //error Message if not found or 1 is missing
+                    MessageBox.Show("Cannot Auto find COM Ports \nSet Manually");
+                }
+            }else
+            {
+                //if no COM Ports
+                MessageBox.Show("There are no Active COM Ports");
+            }
         }
     }
 }
