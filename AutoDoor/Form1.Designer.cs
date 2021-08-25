@@ -170,6 +170,7 @@ namespace AutoDoor
             // 
             this.richTextBox1.Location = new System.Drawing.Point(672, 39);
             this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
             this.richTextBox1.Size = new System.Drawing.Size(387, 617);
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
