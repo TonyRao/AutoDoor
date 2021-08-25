@@ -29,7 +29,6 @@ namespace AutoDoor
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -42,23 +41,10 @@ namespace AutoDoor
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.SuspendLayout();
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(47)))), ((int)(((byte)(51)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Enabled = false;
-            this.textBox1.Font = new System.Drawing.Font("Modern No. 20", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.ForeColor = System.Drawing.Color.White;
-            this.textBox1.Location = new System.Drawing.Point(44, 39);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(11, 10, 11, 10);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(574, 50);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "AutoDoor V0.0.1";
-            this.textBox1.WordWrap = false;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // button1
             // 
@@ -68,6 +54,7 @@ namespace AutoDoor
             this.button1.TabIndex = 1;
             this.button1.Text = "Start";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // button2
             // 
@@ -91,29 +78,32 @@ namespace AutoDoor
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(60, 373);
+            this.textBox2.Location = new System.Drawing.Point(134, 373);
+            this.textBox2.MaxLength = 2;
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(143, 51);
+            this.textBox2.Size = new System.Drawing.Size(69, 51);
             this.textBox2.TabIndex = 4;
-            this.textBox2.Text = "COM";
             this.textBox2.WordWrap = false;
+            this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(60, 516);
+            this.textBox3.Location = new System.Drawing.Point(134, 516);
+            this.textBox3.MaxLength = 2;
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(143, 51);
+            this.textBox3.Size = new System.Drawing.Size(69, 51);
             this.textBox3.TabIndex = 5;
-            this.textBox3.Text = "COM";
             this.textBox3.WordWrap = false;
             // 
             // textBox4
             // 
             this.textBox4.Location = new System.Drawing.Point(367, 397);
+            this.textBox4.MaxLength = 5;
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(100, 51);
             this.textBox4.TabIndex = 6;
             this.textBox4.WordWrap = false;
+            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
             // 
             // label1
             // 
@@ -139,6 +129,7 @@ namespace AutoDoor
             // textBox5
             // 
             this.textBox5.Location = new System.Drawing.Point(367, 506);
+            this.textBox5.MaxLength = 5;
             this.textBox5.Name = "textBox5";
             this.textBox5.Size = new System.Drawing.Size(100, 51);
             this.textBox5.TabIndex = 9;
@@ -175,12 +166,45 @@ namespace AutoDoor
             this.richTextBox1.TabIndex = 12;
             this.richTextBox1.Text = "";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.ForeColor = System.Drawing.Color.Cornsilk;
+            this.label5.Location = new System.Drawing.Point(20, 519);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(108, 42);
+            this.label5.TabIndex = 13;
+            this.label5.Text = "COM";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.ForeColor = System.Drawing.Color.Cornsilk;
+            this.label6.Location = new System.Drawing.Point(20, 376);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 42);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "COM";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.ForeColor = System.Drawing.Color.Cornsilk;
+            this.label7.Location = new System.Drawing.Point(37, 30);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(298, 42);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "AutoDoor V0.0.1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(22F, 42F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(47)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(1112, 710);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -193,7 +217,6 @@ namespace AutoDoor
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox1);
             this.Font = new System.Drawing.Font("Rockwell", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(11, 10, 11, 10);
             this.Name = "Form1";
@@ -205,8 +228,6 @@ namespace AutoDoor
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
@@ -219,6 +240,9 @@ namespace AutoDoor
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }
 

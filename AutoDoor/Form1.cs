@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace AutoDoor
 {
@@ -34,9 +35,21 @@ namespace AutoDoor
             return ports;
         }
 
-        public string getCOMInformationViaPOwershell()
+        public string getCOMInformationViaPowershell()
         {
-            return "";
+            Process process = new Process();
+            // Configure the process using the StartInfo properties.
+            process.StartInfo.FileName = "powershell.exe";
+            process.StartInfo.Arguments = "Get-WMIObject Win32_SerialPort | select-object name";
+            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.CreateNoWindow = true;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.StartInfo.RedirectStandardInput = true;
+            process.Start();
+            process.WaitForExit();// Waits here for the process to exit.
+
+            return process.StandardOutput.ReadToEnd();
         }
 
         //Meant to encrypt 06 numbers in students json file
@@ -127,7 +140,7 @@ namespace AutoDoor
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            getCOMPortNames();
+            
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
@@ -158,6 +171,36 @@ namespace AutoDoor
         private void button3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //toggle start / stop
+            if (button1.Text == "Start")
+            {
+                button1.Text = "Stop";
+                AutoDoorStart();
+            }
+            else
+            {
+                button1.Text = "Start";
+                
+            }
+        }
+        public void AutoDoorStart()
+        {
+            string comOutput = getCOMInformationViaPowershell();
+            MessageBox.Show(comOutput);
         }
     }
 }
