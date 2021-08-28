@@ -427,7 +427,7 @@ namespace AutoDoor
         {
             TimeSpan now = DateTime.Now.TimeOfDay;
 
-            if ((now > start) && (now < end) && ((now < LunchStart) || (now > LunchEnd)))
+            if ((now > start) && (now < end) && ((now < LunchStart) || (now > LunchEnd)) && (DateTime.Now.DayOfWeek != DayOfWeek.Saturday) && (DateTime.Now.DayOfWeek != DayOfWeek.Sunday))
             {
                 return true;
             }

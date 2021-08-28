@@ -190,7 +190,7 @@ namespace AutoDoor
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(298, 42);
             this.label7.TabIndex = 15;
-            this.label7.Text = "AutoDoor V1.0.2";
+            this.label7.Text = "AutoDoor V1.0.5";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox1
