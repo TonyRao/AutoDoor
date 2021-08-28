@@ -17,7 +17,7 @@ namespace AutoDoor
 {
     public partial class Form1 : Form
     {
-
+        //Global variables
         int tg = 0;
         static string port1ID = null;
         static string port2ID = null;
@@ -26,6 +26,7 @@ namespace AutoDoor
         HashSet<string> Students;
         int Delay = 1000;
         int Timeout = 0;
+        string loggingStatement;
 
         public Form1()
         {
@@ -61,6 +62,30 @@ namespace AutoDoor
             process.WaitForExit();// Waits here for the process to exit.
 
             return process.StandardOutput.ReadToEnd();
+        }
+
+        public void DPAPIEncryptData(string text, byte[] entropy)
+        {
+            // first, convert the text to byte array 
+            byte[] originalText = Encoding.Unicode.GetBytes(text);
+
+            // then use Protect() to encrypt your data 
+            byte[] encryptedText = ProtectedData.Protect(originalText, entropy, DataProtectionScope.CurrentUser);
+
+            //and return the encrypted message 
+            //return Convert.ToBase64String(encryptedText);
+        }
+
+        public void DPAPIDecryptData(string text, byte[] entropy)
+        {
+            // the encrypted text, converted to byte array 
+            byte[] encryptedText = Convert.FromBase64String(text);
+
+            // calling Unprotect() that returns the original text 
+            byte[] originalText = ProtectedData.Unprotect(encryptedText, entropy, DataProtectionScope.CurrentUser);
+
+            // finally, returning the result 
+            //return Encoding.Unicode.GetString(originalText);
         }
 
         //Meant to encrypt 06 numbers in students json file
@@ -167,29 +192,30 @@ namespace AutoDoor
 
         private void button3_Click(object sender, EventArgs e)
         {
-            string temp ="";
+            string updatedStatement ="";
             if(Delay != Int32.Parse(textBox4.Text))
             {
                 Delay = Int32.Parse(textBox4.Text);
-                temp += "Updated Delay \n";
+                updatedStatement += "Updated Delay \n";
             }
             if (Timeout != Int32.Parse(textBox5.Text))
             {
                 Timeout = Int32.Parse(textBox5.Text);
-                temp += "Updated TimeOut \n";
+                updatedStatement += "Updated TimeOut \n";
             }
             if(Students != new HashSet<string>(File.ReadAllLines("students.txt")))
             {
+                PruneStudents();
                 Students = new HashSet<string>(File.ReadAllLines("students.txt"));
-                temp += "Updated Students \n";
+                updatedStatement += "Updated Students \n";
             }
-            if(temp == "")
+            if(updatedStatement == "")
             {
                 MessageBox.Show("Nothing was updated.");
             }
             else
             {
-                MessageBox.Show(temp);
+                MessageBox.Show(updatedStatement);
             }
         }
 
@@ -256,7 +282,24 @@ namespace AutoDoor
         }
         public void PushLog(string IncomingText)
         {
-            richTextBox1.Text += ('\n'+ "[" + DateTime.Now + "]" + "    " + IncomingText );
+            loggingStatement = "[" + DateTime.Now + "]" + "    " + IncomingText;
+            LogRichTextBox.Text += ('\n'+  loggingStatement);
+            File.AppendAllText("AutoDoor.log", loggingStatement+"\n");
+        }
+
+        public void PruneStudents()
+        {
+            string StudentsToPrune = File.ReadAllText("students.txt");
+            StudentsToPrune = StudentsToPrune.Replace("\n", "");
+            File.WriteAllText("students.txt", StudentsToPrune);
+        }
+
+        public byte[] HashValue(string whatToHash)
+        {
+            byte[] whatToHashBytes = ASCIIEncoding.ASCII.GetBytes(whatToHash);
+            byte[] hash = new MD5CryptoServiceProvider().ComputeHash(whatToHashBytes);
+
+            return hash;
         }
 
         public void Toggle()
@@ -267,10 +310,12 @@ namespace AutoDoor
                 tg = 1;
                 PushLog("Starting AutoDoor");
                 //disable button and runs port finder
-                button1.Enabled = false; button1.Text = "Stop"; button2.Enabled = false;
-                radioButton1.Enabled = false; radioButton2.Enabled = false; button2.Enabled = true;
+                StartBtn.Enabled = false; StartBtn.Text = "Stop"; TestBtn.Enabled = false;
+                ManualRadioBtn.Enabled = false; AutoRadioBtn.Enabled = false; TestBtn.Enabled = true;
+
+                PruneStudents();
                 Students = new HashSet<string>(File.ReadAllLines("students.txt"));
-                if (radioButton1.Checked == true){
+                if (ManualRadioBtn.Checked == true){
                     ManualDoorSetPort();
                 }
                 else
@@ -278,7 +323,7 @@ namespace AutoDoor
                     AutoDoorSetPort();
                 }
                 //enables button once port finder is done
-                button1.Enabled = true; radioButton1.Enabled = true; radioButton2.Enabled = true;
+                StartBtn.Enabled = true; ManualRadioBtn.Enabled = true; AutoRadioBtn.Enabled = true;
             }
             else
             {
@@ -286,7 +331,7 @@ namespace AutoDoor
                 PushLog("Stopping AutoDoor");
                 ScannerPort.Close();
                 DoorPort.Close();
-                button1.Text = "Start";
+                StartBtn.Text = "Start";
             }
         }
 
@@ -309,7 +354,7 @@ namespace AutoDoor
         public void RadioButtonToggler()
         {
             //toggles manual input on or off
-            if (radioButton2.Checked == true)
+            if (AutoRadioBtn.Checked == true)
             {
                 PushLog("Auto Mode set");
                 textBox2.Enabled = false;
@@ -338,21 +383,19 @@ namespace AutoDoor
         {
             if (CheckTime() == true)
             {
-                if(Data.Length != 10)
+                //3XHF3K6XGIKXPSCY
+                if (HashValue(Data) == Encoding.Unicode.GetBytes("c0e36a61e74a855a5c48f8e0d254d17e"))
                 {
-                    if (Data == "3XHF3K6XGIKXPSCY")
-                    {
-                        PushLog("User [" + Data + "] Valid");
-                        OpenDoor();
-                    }
-                    if (Students.Contains(Data))
-                    {
-                        OpenDoor();
-                        PushLog("User [" + Data + "] Valid");
-                    }else
-                    {
-                        PushLog("User [" + Data + "] Invalid");
-                    }
+                    PushLog("User [" + Data + "] Valid");
+                    OpenDoor();
+                }
+                if (Students.Contains(Data))
+                {
+                    OpenDoor();
+                    PushLog("User [" + Data + "] Valid");
+                }else
+                {
+                    PushLog("User [" + Data + "] Invalid");
                 }
 
             }

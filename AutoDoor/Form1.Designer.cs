@@ -30,9 +30,9 @@ namespace AutoDoor
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.StartBtn = new System.Windows.Forms.Button();
+            this.TestBtn = new System.Windows.Forms.Button();
+            this.UpdateBtn = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
@@ -41,7 +41,7 @@ namespace AutoDoor
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.LogRichTextBox = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -49,8 +49,8 @@ namespace AutoDoor
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.ManualRadioBtn = new System.Windows.Forms.RadioButton();
+            this.AutoRadioBtn = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
@@ -60,36 +60,36 @@ namespace AutoDoor
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // StartBtn
             // 
-            this.button1.Location = new System.Drawing.Point(87, 185);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(159, 108);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Start";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.StartBtn.Location = new System.Drawing.Point(87, 185);
+            this.StartBtn.Name = "StartBtn";
+            this.StartBtn.Size = new System.Drawing.Size(159, 108);
+            this.StartBtn.TabIndex = 1;
+            this.StartBtn.Text = "Start";
+            this.StartBtn.UseVisualStyleBackColor = true;
+            this.StartBtn.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // TestBtn
             // 
-            this.button2.Enabled = false;
-            this.button2.Location = new System.Drawing.Point(268, 185);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(159, 108);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Test";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.TestBtn.Enabled = false;
+            this.TestBtn.Location = new System.Drawing.Point(268, 185);
+            this.TestBtn.Name = "TestBtn";
+            this.TestBtn.Size = new System.Drawing.Size(159, 108);
+            this.TestBtn.TabIndex = 2;
+            this.TestBtn.Text = "Test";
+            this.TestBtn.UseVisualStyleBackColor = true;
+            this.TestBtn.Click += new System.EventHandler(this.button2_Click);
             // 
-            // button3
+            // UpdateBtn
             // 
-            this.button3.Location = new System.Drawing.Point(451, 185);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(159, 108);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Update";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.UpdateBtn.Location = new System.Drawing.Point(451, 185);
+            this.UpdateBtn.Name = "UpdateBtn";
+            this.UpdateBtn.Size = new System.Drawing.Size(159, 108);
+            this.UpdateBtn.TabIndex = 3;
+            this.UpdateBtn.Text = "Update";
+            this.UpdateBtn.UseVisualStyleBackColor = true;
+            this.UpdateBtn.Click += new System.EventHandler(this.button3_Click);
             // 
             // textBox2
             // 
@@ -173,16 +173,16 @@ namespace AutoDoor
             this.label4.TabIndex = 11;
             this.label4.Text = "Timeout";
             // 
-            // richTextBox1
+            // LogRichTextBox
             // 
-            this.richTextBox1.Font = new System.Drawing.Font("Rockwell", 10F);
-            this.richTextBox1.Location = new System.Drawing.Point(713, 12);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedHorizontal;
-            this.richTextBox1.Size = new System.Drawing.Size(387, 686);
-            this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.Text = "";
+            this.LogRichTextBox.Font = new System.Drawing.Font("Rockwell", 10F);
+            this.LogRichTextBox.Location = new System.Drawing.Point(713, 12);
+            this.LogRichTextBox.Name = "LogRichTextBox";
+            this.LogRichTextBox.ReadOnly = true;
+            this.LogRichTextBox.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedHorizontal;
+            this.LogRichTextBox.Size = new System.Drawing.Size(387, 686);
+            this.LogRichTextBox.TabIndex = 12;
+            this.LogRichTextBox.Text = "";
             // 
             // label5
             // 
@@ -256,31 +256,31 @@ namespace AutoDoor
             this.label10.TabIndex = 19;
             this.label10.Text = "ms";
             // 
-            // radioButton1
+            // ManualRadioBtn
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.ForeColor = System.Drawing.Color.White;
-            this.radioButton1.Location = new System.Drawing.Point(403, 108);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(161, 46);
-            this.radioButton1.TabIndex = 20;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Manual";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
+            this.ManualRadioBtn.AutoSize = true;
+            this.ManualRadioBtn.ForeColor = System.Drawing.Color.White;
+            this.ManualRadioBtn.Location = new System.Drawing.Point(403, 108);
+            this.ManualRadioBtn.Name = "ManualRadioBtn";
+            this.ManualRadioBtn.Size = new System.Drawing.Size(161, 46);
+            this.ManualRadioBtn.TabIndex = 20;
+            this.ManualRadioBtn.TabStop = true;
+            this.ManualRadioBtn.Text = "Manual";
+            this.ManualRadioBtn.UseVisualStyleBackColor = true;
+            this.ManualRadioBtn.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
-            // radioButton2
+            // AutoRadioBtn
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
-            this.radioButton2.ForeColor = System.Drawing.Color.White;
-            this.radioButton2.Location = new System.Drawing.Point(167, 108);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(115, 46);
-            this.radioButton2.TabIndex = 21;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Auto";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.AutoRadioBtn.AutoSize = true;
+            this.AutoRadioBtn.Checked = true;
+            this.AutoRadioBtn.ForeColor = System.Drawing.Color.White;
+            this.AutoRadioBtn.Location = new System.Drawing.Point(167, 108);
+            this.AutoRadioBtn.Name = "AutoRadioBtn";
+            this.AutoRadioBtn.Size = new System.Drawing.Size(115, 46);
+            this.AutoRadioBtn.TabIndex = 21;
+            this.AutoRadioBtn.TabStop = true;
+            this.AutoRadioBtn.Text = "Auto";
+            this.AutoRadioBtn.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -356,8 +356,8 @@ namespace AutoDoor
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
+            this.Controls.Add(this.AutoRadioBtn);
+            this.Controls.Add(this.ManualRadioBtn);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -365,7 +365,7 @@ namespace AutoDoor
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.richTextBox1);
+            this.Controls.Add(this.LogRichTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox5);
@@ -374,9 +374,9 @@ namespace AutoDoor
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.UpdateBtn);
+            this.Controls.Add(this.TestBtn);
+            this.Controls.Add(this.StartBtn);
             this.Font = new System.Drawing.Font("Rockwell", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(11, 10, 11, 10);
@@ -390,9 +390,9 @@ namespace AutoDoor
         }
 
         #endregion
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button StartBtn;
+        private System.Windows.Forms.Button TestBtn;
+        private System.Windows.Forms.Button UpdateBtn;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;
@@ -401,7 +401,7 @@ namespace AutoDoor
         private System.Windows.Forms.TextBox textBox5;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox LogRichTextBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
@@ -409,8 +409,8 @@ namespace AutoDoor
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton ManualRadioBtn;
+        private System.Windows.Forms.RadioButton AutoRadioBtn;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox6;

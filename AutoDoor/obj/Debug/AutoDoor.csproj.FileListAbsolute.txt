@@ -28,3 +28,13 @@ C:\Users\jmjul_eh\Source\Repos\july12123\AutoDoor\AutoDoor\obj\Debug\AutoDoor.cs
 C:\Users\jmjul_eh\Source\Repos\july12123\AutoDoor\AutoDoor\obj\Debug\AutoDoor.csproj.CoreCompileInputs.cache
 C:\Users\jmjul_eh\Source\Repos\july12123\AutoDoor\AutoDoor\obj\Debug\AutoDoor.exe
 C:\Users\jmjul_eh\Source\Repos\july12123\AutoDoor\AutoDoor\obj\Debug\AutoDoor.pdb
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\bin\Debug\AutoDoor.exe.config
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\bin\Debug\AutoDoor.exe
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\bin\Debug\AutoDoor.pdb
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.csprojAssemblyReference.cache
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.Form1.resources
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.Properties.Resources.resources
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.csproj.GenerateResource.cache
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.csproj.CoreCompileInputs.cache
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.exe
+C:\Users\serpe\Source\Repos\AutoDoor\AutoDoor\obj\Debug\AutoDoor.pdb
