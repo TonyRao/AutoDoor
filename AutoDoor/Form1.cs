@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO.Ports;
 using System.IO;
 using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Threading;
+using System.Linq;
 
 namespace AutoDoor
 {
@@ -23,9 +18,13 @@ namespace AutoDoor
         static string port2ID = null;
         SerialPort ScannerPort = new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One);
         SerialPort DoorPort = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
-        HashSet<string> Students;
+        string[] Students;
         int Delay = 1000;
         int Timeout = 0;
+        TimeSpan start = DateTime.Parse("7:00 am").TimeOfDay;
+        TimeSpan end = DateTime.Parse("2:00 pm").TimeOfDay;
+        TimeSpan LunchStart = DateTime.Parse("10:10 am").TimeOfDay;
+        TimeSpan LunchEnd = DateTime.Parse("10:50 am").TimeOfDay;
 
         public Form1()
         {
@@ -161,27 +160,42 @@ namespace AutoDoor
 
         private void button2_Click(object sender, EventArgs e)
         {
-            PushLog("Door Opened(Test Button Pushed)");
-            OpenDoor();
+            try
+            {
+                PushLog("Door Opened(Test Button Pushed)");
+                OpenDoor();
+            }
+            catch
+            {
+                MessageBox.Show("Invalid Ports");
+            }
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             string temp ="";
-            if(Delay != Int32.Parse(textBox4.Text))
-            {
-                Delay = Int32.Parse(textBox4.Text);
-                temp += "Updated Delay \n";
-            }
             if (Timeout != Int32.Parse(textBox5.Text))
             {
                 Timeout = Int32.Parse(textBox5.Text);
                 temp += "Updated TimeOut \n";
             }
-            if(Students != new HashSet<string>(File.ReadAllLines("students.txt")))
+
+            start = DateTime.Parse(textBox1.Text).TimeOfDay;
+            end = DateTime.Parse(textBox6.Text).TimeOfDay;
+            LunchStart = DateTime.Parse(textBox7.Text).TimeOfDay;
+            LunchEnd = DateTime.Parse(textBox8.Text).TimeOfDay;
+
+            if (File.Exists("students.txt") == true)
             {
-                Students = new HashSet<string>(File.ReadAllLines("students.txt"));
-                temp += "Updated Students \n";
+                if (Students != File.ReadAllLines("students.txt"))
+                {
+                    Students = File.ReadAllLines("students.txt");
+                    temp += "Updated Students \n";
+                }
+            }
+            else
+            {
+                MessageBox.Show("Missing Students.txt");
             }
             if(temp == "")
             {
@@ -269,13 +283,27 @@ namespace AutoDoor
                 //disable button and runs port finder
                 button1.Enabled = false; button1.Text = "Stop"; button2.Enabled = false;
                 radioButton1.Enabled = false; radioButton2.Enabled = false; button2.Enabled = true;
-                Students = new HashSet<string>(File.ReadAllLines("students.txt"));
-                if (radioButton1.Checked == true){
-                    ManualDoorSetPort();
+                if (File.Exists("students.txt") == true)
+                {
+                    start = DateTime.Parse(textBox1.Text).TimeOfDay;
+                    end = DateTime.Parse(textBox6.Text).TimeOfDay;
+                    LunchStart = DateTime.Parse(textBox7.Text).TimeOfDay;
+                    LunchEnd = DateTime.Parse(textBox8.Text).TimeOfDay;
+                    Students = File.ReadAllLines("students.txt");
+                    if (radioButton1.Checked == true)
+                    {
+                        ManualDoorSetPort();
+                    }
+                    else
+                    {
+                        AutoDoorSetPort();
+                    }
                 }
                 else
                 {
-                    AutoDoorSetPort();
+                    PushLog("Failed to Start");
+                    MessageBox.Show("Missing student.txt");
+                    Toggle();
                 }
                 //enables button once port finder is done
                 button1.Enabled = true; radioButton1.Enabled = true; radioButton2.Enabled = true;
@@ -284,6 +312,7 @@ namespace AutoDoor
             {
                 tg = 0;
                 PushLog("Stopping AutoDoor");
+                button2.Enabled = false;
                 ScannerPort.Close();
                 DoorPort.Close();
                 button1.Text = "Start";
@@ -300,11 +329,20 @@ namespace AutoDoor
         }
         public void ManualDoorSetPort()
         {
-            ScannerPort.PortName = "COM" + textBox2.Text;
-            DoorPort.PortName = "COM" + textBox3.Text;
-            ScannerPort.Open();
-            DoorPort.Open();
-            ScannerPort.DataReceived += sp_DataReceived;
+            if (textBox2.Text != "" && textBox3.Text != "")
+            {
+                ScannerPort.PortName = "COM" + textBox2.Text;
+                DoorPort.PortName = "COM" + textBox3.Text;
+                ScannerPort.Open();
+                DoorPort.Open();
+                ScannerPort.DataReceived += sp_DataReceived;
+            }
+            else
+            {
+                PushLog("Failed to Start");
+                MessageBox.Show("COM ports are not defined");
+                Toggle();
+            }
         }
         public void RadioButtonToggler()
         {
@@ -336,29 +374,36 @@ namespace AutoDoor
         }
         public void Checker(string Data)
         {
-            if (CheckTime() == true)
+            if (Data == "3XHF3K6XGIKXPSCY")
             {
-                if(Data.Length != 10)
+                PushLog("Administrator Open Door ["+Data+"]");
+                OpenDoor();
+                return;
+            }
+            if (CheckTime() == true )
+            {
+                if(Data.Length == 0)
                 {
-                    if (Data == "3XHF3K6XGIKXPSCY")
-                    {
-                        PushLog("User [" + Data + "] Valid");
-                        OpenDoor();
-                    }
-                    if (Students.Contains(Data))
-                    {
-                        OpenDoor();
-                        PushLog("User [" + Data + "] Valid");
-                    }else
-                    {
-                        PushLog("User [" + Data + "] Invalid");
-                    }
+                    PushLog("Bug or invalid ["+Data+"]");
+                    return;
                 }
-
+                string oewih = Array.Find(Students, (student => student == Data));
+                if (oewih == Data)
+                {
+                    PushLog("User [" + Data + "] Valid");
+                    OpenDoor();
+                    return;
+                }
+                else
+                {
+                    PushLog("User [" + Data + "] Invalid");
+                    return;
+                }
             }
             else
             {
                 PushLog("Out of Time Scan by [" + Data + "]");
+                return;
             }
 
 
@@ -379,23 +424,48 @@ namespace AutoDoor
 
         }
         private bool CheckTime() 
-        { 
-            if((
-                DateTime.Now.TimeOfDay.Hours >= DateTime.Parse(textBox1.Text).TimeOfDay.Hours 
-                && DateTime.Now.TimeOfDay.Minutes >= DateTime.Parse(textBox1.Text).TimeOfDay.Minutes) 
-                && (DateTime.Now.TimeOfDay.Hours <= DateTime.Parse(textBox6.Text).TimeOfDay.Hours 
-                && DateTime.Now.TimeOfDay.Minutes <= DateTime.Parse(textBox6.Text).TimeOfDay.Minutes)
+        {
+            TimeSpan now = DateTime.Now.TimeOfDay;
 
-                && (DateTime.Now.TimeOfDay.Hours <= DateTime.Parse(textBox7.Text).TimeOfDay.Hours
-                && DateTime.Now.TimeOfDay.Minutes <= DateTime.Parse(textBox7.Text).TimeOfDay.Minutes)
-                && (DateTime.Now.TimeOfDay.Hours >= DateTime.Parse(textBox8.Text).TimeOfDay.Hours
-                && DateTime.Now.TimeOfDay.Minutes >= DateTime.Parse(textBox8.Text).TimeOfDay.Minutes))
+            if ((now > start) && (now < end) && ((now < LunchStart) || (now > LunchEnd)))
             {
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            if (CheckTime() == true)
+            {
+                PushLog("yes");
+            }
+            else
+            {
+                PushLog("yes");
+            }
+        }
+
+        private void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            // scroll it automatically
+            richTextBox1.SelectionStart = richTextBox1.Text.Length;
+            richTextBox1.ScrollToCaret();
+        }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            if (CheckTime() == true)
+            {
+                PushLog("True");
+            }
+            else
+            {
+                PushLog("False");
             }
         }
     }

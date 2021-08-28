@@ -35,11 +35,9 @@ namespace AutoDoor
             this.button3 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox5 = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -47,7 +45,6 @@ namespace AutoDoor
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -112,17 +109,6 @@ namespace AutoDoor
             this.textBox3.TabIndex = 5;
             this.textBox3.WordWrap = false;
             // 
-            // textBox4
-            // 
-            this.textBox4.Location = new System.Drawing.Point(479, 347);
-            this.textBox4.MaxLength = 5;
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(100, 51);
-            this.textBox4.TabIndex = 6;
-            this.textBox4.Text = "1000";
-            this.textBox4.WordWrap = false;
-            this.textBox4.TextChanged += new System.EventHandler(this.textBox4_TextChanged);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -153,16 +139,6 @@ namespace AutoDoor
             this.textBox5.Text = "0";
             this.textBox5.WordWrap = false;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(472, 296);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(118, 42);
-            this.label3.TabIndex = 10;
-            this.label3.Text = "Delay";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -179,10 +155,12 @@ namespace AutoDoor
             this.richTextBox1.Location = new System.Drawing.Point(713, 12);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedHorizontal;
+            this.richTextBox1.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedBoth;
             this.richTextBox1.Size = new System.Drawing.Size(387, 686);
             this.richTextBox1.TabIndex = 12;
-            this.richTextBox1.Text = "";
+            this.richTextBox1.Text = "Logs";
+            this.richTextBox1.WordWrap = false;
+            this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // label5
             // 
@@ -212,7 +190,7 @@ namespace AutoDoor
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(298, 42);
             this.label7.TabIndex = 15;
-            this.label7.Text = "AutoDoor V0.9.5";
+            this.label7.Text = "AutoDoor V1.0.2";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox1
@@ -235,16 +213,6 @@ namespace AutoDoor
             this.label8.Size = new System.Drawing.Size(421, 19);
             this.label8.TabIndex = 17;
             this.label8.Text = "Application was created by (Chantler?) Xavier, and Julio";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.ForeColor = System.Drawing.Color.DarkGray;
-            this.label9.Location = new System.Drawing.Point(585, 351);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 42);
-            this.label9.TabIndex = 18;
-            this.label9.Text = "ms";
             // 
             // label10
             // 
@@ -296,7 +264,7 @@ namespace AutoDoor
             // textBox1
             // 
             this.textBox1.Location = new System.Drawing.Point(12, 606);
-            this.textBox1.MaxLength = 5;
+            this.textBox1.MaxLength = 7;
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(149, 51);
             this.textBox1.TabIndex = 23;
@@ -307,11 +275,11 @@ namespace AutoDoor
             // textBox6
             // 
             this.textBox6.Location = new System.Drawing.Point(186, 606);
-            this.textBox6.MaxLength = 5;
+            this.textBox6.MaxLength = 7;
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(146, 51);
             this.textBox6.TabIndex = 24;
-            this.textBox6.Text = "2:00pm";
+            this.textBox6.Text = "1:50pm";
             this.textBox6.WordWrap = false;
             // 
             // label12
@@ -327,7 +295,7 @@ namespace AutoDoor
             // textBox7
             // 
             this.textBox7.Location = new System.Drawing.Point(374, 606);
-            this.textBox7.MaxLength = 5;
+            this.textBox7.MaxLength = 7;
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(154, 51);
             this.textBox7.TabIndex = 26;
@@ -337,7 +305,7 @@ namespace AutoDoor
             // textBox8
             // 
             this.textBox8.Location = new System.Drawing.Point(534, 606);
-            this.textBox8.MaxLength = 5;
+            this.textBox8.MaxLength = 7;
             this.textBox8.Name = "textBox8";
             this.textBox8.Size = new System.Drawing.Size(155, 51);
             this.textBox8.TabIndex = 27;
@@ -359,7 +327,6 @@ namespace AutoDoor
             this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
@@ -367,11 +334,9 @@ namespace AutoDoor
             this.Controls.Add(this.label5);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox5);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.button3);
@@ -395,11 +360,9 @@ namespace AutoDoor
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Label label5;
@@ -407,7 +370,6 @@ namespace AutoDoor
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
