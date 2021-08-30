@@ -14,8 +14,6 @@ namespace AutoDoor
     {
 
         int tg = 0;
-        static string port1ID = null;
-        static string port2ID = null;
         SerialPort ScannerPort = new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One);
         SerialPort DoorPort = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
         string[] Students;
@@ -221,53 +219,6 @@ namespace AutoDoor
         {
             Toggle();
         }
-        public void AutoDoorSetPort()
-        {
-            //clean string
-            string comOutput = getCOMInformationViaPowershell();
-            string parsedStr = comOutput.Replace("----","").Replace("name", "");
-
-            if (parsedStr != "")
-            {
-                //set variables
-                string[] coms = parsedStr.Split('\n');
-
-                foreach (var com in coms)
-                {
-                    //Loops each line
-                    if (com.Contains("STMicroelectronics Virual COM Port"))
-                    {
-                        PushLog("Found: " + com);
-                        port1ID = com.Split('(')[1].Split(')')[0];
-                    }
-                    if (com.Contains("USB-SERIAL CH340"))
-                    {
-                        PushLog("Found: " + com);
-                        port2ID = com.Split('(')[1].Split(')')[0];
-                    }
-                }
-                if(port2ID != null && port1ID != null)
-                {
-                    ScannerPort.PortName = port1ID;
-                    DoorPort.PortName = port2ID;
-                    ScannerPort.Open();
-                    DoorPort.Open();
-                }
-                else
-                {
-                    PushLog("Missing COM ports");
-                    //error Message if not found or 1 is missing
-                    MessageBox.Show("Cannot Auto find COM Ports \nSet Manually");
-                    Toggle();
-                }
-            }else
-            {
-                PushLog("No Active COM ports");
-                //if no COM Ports
-                MessageBox.Show("There are no Active COM Ports");
-                Toggle();
-            }
-        }
         public void PushLog(string IncomingText)
         {
             richTextBox1.Text += ('\n'+ "[" + DateTime.Now + "]" + "    " + IncomingText );
@@ -282,7 +233,7 @@ namespace AutoDoor
                 PushLog("Starting AutoDoor");
                 //disable button and runs port finder
                 button1.Enabled = false; button1.Text = "Stop"; button2.Enabled = false;
-                radioButton1.Enabled = false; radioButton2.Enabled = false; button2.Enabled = true;
+                button2.Enabled = true;
                 if (File.Exists("students.txt") == true)
                 {
                     start = DateTime.Parse(textBox1.Text).TimeOfDay;
@@ -290,14 +241,7 @@ namespace AutoDoor
                     LunchStart = DateTime.Parse(textBox7.Text).TimeOfDay;
                     LunchEnd = DateTime.Parse(textBox8.Text).TimeOfDay;
                     Students = File.ReadAllLines("students.txt");
-                    if (radioButton1.Checked == true)
-                    {
-                        ManualDoorSetPort();
-                    }
-                    else
-                    {
-                        AutoDoorSetPort();
-                    }
+                    ManualDoorSetPort();
                 }
                 else
                 {
@@ -306,7 +250,7 @@ namespace AutoDoor
                     Toggle();
                 }
                 //enables button once port finder is done
-                button1.Enabled = true; radioButton1.Enabled = true; radioButton2.Enabled = true;
+                button1.Enabled = true;
             }
             else
             {
@@ -317,15 +261,6 @@ namespace AutoDoor
                 DoorPort.Close();
                 button1.Text = "Start";
             }
-        }
-
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButtonToggler();
-        }
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            RadioButtonToggler();
         }
         public void ManualDoorSetPort()
         {
@@ -342,22 +277,6 @@ namespace AutoDoor
                 PushLog("Failed to Start");
                 MessageBox.Show("COM ports are not defined");
                 Toggle();
-            }
-        }
-        public void RadioButtonToggler()
-        {
-            //toggles manual input on or off
-            if (radioButton2.Checked == true)
-            {
-                PushLog("Auto Mode set");
-                textBox2.Enabled = false;
-                textBox3.Enabled = false;
-            }
-            else
-            {
-                PushLog("Manual Mode set");
-                textBox2.Enabled = true;
-                textBox3.Enabled = true;
             }
         }
         public void OpenDoor()
@@ -436,20 +355,6 @@ namespace AutoDoor
                 return false;
             }
         }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-            if (CheckTime() == true)
-            {
-                PushLog("yes");
-            }
-            else
-            {
-                PushLog("yes");
-            }
-        }
-
         private void richTextBox1_TextChanged(object sender, EventArgs e)
         {
             // scroll it automatically

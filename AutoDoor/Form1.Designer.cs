@@ -46,8 +46,6 @@ namespace AutoDoor
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label8 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.label11 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
@@ -90,7 +88,6 @@ namespace AutoDoor
             // 
             // textBox2
             // 
-            this.textBox2.Enabled = false;
             this.textBox2.Location = new System.Drawing.Point(161, 351);
             this.textBox2.MaxLength = 2;
             this.textBox2.Name = "textBox2";
@@ -101,7 +98,6 @@ namespace AutoDoor
             // 
             // textBox3
             // 
-            this.textBox3.Enabled = false;
             this.textBox3.Location = new System.Drawing.Point(160, 456);
             this.textBox3.MaxLength = 2;
             this.textBox3.Name = "textBox3";
@@ -186,11 +182,11 @@ namespace AutoDoor
             // 
             this.label7.AutoSize = true;
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(139, 39);
+            this.label7.Location = new System.Drawing.Point(140, 39);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(298, 42);
             this.label7.TabIndex = 15;
-            this.label7.Text = "AutoDoor V1.0.5";
+            this.label7.Text = "AutoDoor V1.1.0";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox1
@@ -223,32 +219,6 @@ namespace AutoDoor
             this.label10.Size = new System.Drawing.Size(67, 42);
             this.label10.TabIndex = 19;
             this.label10.Text = "ms";
-            // 
-            // radioButton1
-            // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.ForeColor = System.Drawing.Color.White;
-            this.radioButton1.Location = new System.Drawing.Point(403, 108);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(161, 46);
-            this.radioButton1.TabIndex = 20;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Manual";
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
-            // 
-            // radioButton2
-            // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Checked = true;
-            this.radioButton2.ForeColor = System.Drawing.Color.White;
-            this.radioButton2.Location = new System.Drawing.Point(167, 108);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(115, 46);
-            this.radioButton2.TabIndex = 21;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Auto";
-            this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // label11
             // 
@@ -324,8 +294,6 @@ namespace AutoDoor
             this.Controls.Add(this.textBox6);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.radioButton2);
-            this.Controls.Add(this.radioButton1);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.pictureBox1);
@@ -344,6 +312,7 @@ namespace AutoDoor
             this.Controls.Add(this.button1);
             this.Font = new System.Drawing.Font("Rockwell", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(11, 10, 11, 10);
             this.Name = "Form1";
             this.Text = "AutoDoor";
@@ -371,8 +340,6 @@ namespace AutoDoor
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.TextBox textBox6;
