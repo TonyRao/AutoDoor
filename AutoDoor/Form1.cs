@@ -219,9 +219,26 @@ namespace AutoDoor
         {
             Toggle();
         }
-        public void PushLog(string IncomingText)
+        public void PushLog(string IncomingText, string mode="none")
         {
-            richTextBox1.Text += ('\n'+ "[" + DateTime.Now + "]" + "    " + IncomingText );
+            string logStatement = '\n' + "[" + DateTime.Now + "]" + "    " + IncomingText;
+            if (mode == "None")
+            {
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", logStatement);
+                richTextBox1.Text += (logStatement);
+            }
+
+            if (mode == "debug")
+            {
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.debug.log", logStatement);
+            }
+
+            if (mode == "anomaly")
+            {
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", logStatement);
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.anom.log", logStatement);
+                richTextBox1.Text += (logStatement);
+            }
         }
 
         public void Toggle()
@@ -246,7 +263,7 @@ namespace AutoDoor
                 else
                 {
                     PushLog("Failed to Start");
-                    MessageBox.Show("Missing student.txt");
+                    MessageBox.Show("Missing students.txt");
                     Toggle();
                 }
                 //enables button once port finder is done
@@ -291,6 +308,16 @@ namespace AutoDoor
             string IncomingData = ScannerPort.ReadExisting();
             Checker(IncomingData);
         }
+
+        public void anamolyDetection(string entry)
+        {
+            char firstCharinEntry = entry[0];
+            if (char.IsLetter(firstCharinEntry))
+            {
+
+            }
+        }
+
         public void Checker(string Data)
         {
             if (Data == "3XHF3K6XGIKXPSCY")
@@ -301,13 +328,13 @@ namespace AutoDoor
             }
             if (CheckTime() == true )
             {
-                if(Data.Length == 0)
+                if(string.IsNullOrEmpty(Data))
                 {
-                    PushLog("Bug or invalid ["+Data+"]");
+                    PushLog($"Null or empty detected: [{Data}]", "debug");
                     return;
                 }
-                string oewih = Array.Find(Students, (student => student == Data));
-                if (oewih == Data)
+                string StudentOutput = Array.Find(Students, (student => student == Data));
+                if (StudentOutput == Data)
                 {
                     PushLog("User [" + Data + "] Valid");
                     OpenDoor();
@@ -372,6 +399,11 @@ namespace AutoDoor
             {
                 PushLog("False");
             }
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

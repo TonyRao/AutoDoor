@@ -184,9 +184,9 @@ namespace AutoDoor
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(140, 39);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(298, 42);
+            this.label7.Size = new System.Drawing.Size(400, 42);
             this.label7.TabIndex = 15;
-            this.label7.Text = "AutoDoor V1.1.0";
+            this.label7.Text = "AutoDoor V1.1.8(Beta)";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // pictureBox1
@@ -206,9 +206,10 @@ namespace AutoDoor
             this.label8.ForeColor = System.Drawing.Color.White;
             this.label8.Location = new System.Drawing.Point(8, 682);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(421, 19);
+            this.label8.Size = new System.Drawing.Size(328, 19);
             this.label8.TabIndex = 17;
-            this.label8.Text = "Application was created by (Chantler?) Xavier, and Julio";
+            this.label8.Text = "Application was created by Xavier and Julio";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label10
             // 
