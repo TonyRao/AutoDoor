@@ -250,7 +250,7 @@ namespace AutoDoor
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(146, 51);
             this.textBox6.TabIndex = 24;
-            this.textBox6.Text = "1:50pm";
+            this.textBox6.Text = "1:45pm";
             this.textBox6.WordWrap = false;
             // 
             // label12

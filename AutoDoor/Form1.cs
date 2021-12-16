@@ -188,7 +188,7 @@ namespace AutoDoor
                 if (Students != File.ReadAllLines("students.txt"))
                 {
                     Students = File.ReadAllLines("students.txt");
-                    temp += "Updated Students \n";
+                    temp += $"Updated {Students.Length} Students\n";
                 }
             }
             else
