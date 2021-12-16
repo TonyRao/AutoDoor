@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Diagnostics;
 using System.Threading;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace AutoDoor
 {
@@ -23,6 +24,15 @@ namespace AutoDoor
         TimeSpan end = DateTime.Parse("2:00 pm").TimeOfDay;
         TimeSpan LunchStart = DateTime.Parse("10:10 am").TimeOfDay;
         TimeSpan LunchEnd = DateTime.Parse("10:50 am").TimeOfDay;
+
+        //Function to handle all key events, EVEN WHEN THE FORM IS NOT FOCUSED
+        [DllImport("User32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
+        private static readonly int VK_SNAPSHOT = 0x4F; //O key --- // 0x2C; //This is the print-screen key.
+
+        //Assume the timer is setup with Interval = 16 (corresponds to ~60FPS).
+        //private System.Windows.Forms.Timer timer1 = new System.Windows.Forms.Timer();
 
         public Form1()
         {
@@ -222,21 +232,22 @@ namespace AutoDoor
         public void PushLog(string IncomingText, string mode="none")
         {
             string logStatement = '\n' + "[" + DateTime.Now + "]" + "    " + IncomingText;
-            if (mode == "None")
+            if (mode == "none")
             {
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", logStatement);
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", $"{logStatement}\r\n");
                 richTextBox1.Text += (logStatement);
             }
 
             if (mode == "debug")
             {
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.debug.log", logStatement);
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.debug.log", $"{logStatement}\r\n");
+                richTextBox1.Text += (logStatement);
             }
 
             if (mode == "anomaly")
             {
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", logStatement);
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.anom.log", logStatement);
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", $"{logStatement}\r\n");
+                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.anom.log", $"{logStatement}\r\n");
                 richTextBox1.Text += (logStatement);
             }
         }
@@ -311,10 +322,11 @@ namespace AutoDoor
 
         public void anamolyDetection(string entry)
         {
+            MessageBox.Show("anomaly detected");
             char firstCharinEntry = entry[0];
             if (char.IsLetter(firstCharinEntry))
             {
-
+                MessageBox.Show("If triggered");
             }
         }
 
@@ -389,21 +401,43 @@ namespace AutoDoor
             richTextBox1.ScrollToCaret();
         }
 
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-            if (CheckTime() == true)
-            {
-                PushLog("True");
-            }
-            else
-            {
-                PushLog("False");
-            }
-        }
-
         private void label8_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            short keyState = GetAsyncKeyState(VK_SNAPSHOT);
+
+            //Check if the MSB is set. If so, then the key is pressed.
+            bool prntScrnIsPressed = ((keyState >> 15) & 0x0001) == 0x0001;
+
+            //Check if the LSB is set. If so, then the key was pressed since
+            //the last call to GetAsyncKeyState
+            bool unprocessedPress = ((keyState >> 0) & 0x0001) == 0x0001;
+
+            if (prntScrnIsPressed)
+            {
+                //TODO Execute client code...
+                MessageBox.Show("prntScrn pressed");
+            }
+
+            if (unprocessedPress)
+            {
+                //TODO Execute client code...
+                MessageBox.Show("prntScrn pressed");
+            }
+        }
+
+        private void timer2_Tick_1(object sender, EventArgs e)
+        {
+
+            if (GetAsyncKeyState(0x04) != 0) //0x02 is right click
+            {
+                PushLog("Door opened remotely by mouse");
+                OpenDoor();
+            }
         }
     }
 }
