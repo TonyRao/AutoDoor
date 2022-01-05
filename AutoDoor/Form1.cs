@@ -13,7 +13,7 @@ namespace AutoDoor
 {
     public partial class Form1 : Form
     {
-
+        string localAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         int tg = 0;
         SerialPort ScannerPort = new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One);
         SerialPort DoorPort = new SerialPort("COM2", 9600, Parity.None, 8, StopBits.One);
@@ -234,21 +234,20 @@ namespace AutoDoor
             string logStatement = '\n' + "[" + DateTime.Now + "]" + "    " + IncomingText;
             if (mode == "none")
             {
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", $"{logStatement}\r\n");
+                
+                File.AppendAllText($"{localAppDataPath}\\Autodoor.log", $"{logStatement}{Environment.NewLine}");
                 richTextBox1.Text += (logStatement);
             }
 
             if (mode == "debug")
             {
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.debug.log", $"{logStatement}\r\n");
-                richTextBox1.Text += (logStatement);
+                File.AppendAllText($"{localAppDataPath}\\Autodoor.debug.log", $"{logStatement}{Environment.NewLine}");
             }
 
             if (mode == "anomaly")
             {
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.log", $"{logStatement}\r\n");
-                File.AppendAllText("C:\\Users\\Admin\\AppData\\Local\\Autodoor.anom.log", $"{logStatement}\r\n");
-                richTextBox1.Text += (logStatement);
+                File.AppendAllText($"{localAppDataPath}\\Autodoor.log", $"{logStatement}{Environment.NewLine}");
+                File.AppendAllText($"{localAppDataPath}\\Autodoor.anom.log", $"{logStatement}{Environment.NewLine}");
             }
         }
 
